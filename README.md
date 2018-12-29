@@ -9,9 +9,25 @@ Requires
 - CMake 3.0 or later
 - Qt 5.2 or later.
 - Tested with Visual Studio 2017 and mingw 4.9.1.
-  - Should also compile on Linux, but not tested.
+- Tested with Ubuntu Bionic (18.04) and gcc 7.3.0
 - Optionally QtCreator source code.
   - If not present, it will be downloaded as part of the build.
+
+### Linux
+
+Install build dependencies:
+```bash
+sudo apt install cmake qtbase5-dev qtdeclarative5-dev
+```
+
+Build and install qmlfmt
+```bash
+cd <source dir>
+cmake .
+make
+sudo make install
+```
+
   
 ## Usage
     Usage: qmlfmt [options] path
