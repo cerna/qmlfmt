@@ -53,6 +53,7 @@ int QmlFmt::InternalRun(QIODevice& input, const QString& path)
     {
         if (this->m_options.testFlag(Option::PrintError))
         {
+            qstderr << "Encountered problems parsing file " << path << "\n";
             for (const QmlJS::DiagnosticMessage& msg : document->diagnosticMessages())
             {
                 qstderr << (msg.isError() ? "Error:" : "Warning:");
