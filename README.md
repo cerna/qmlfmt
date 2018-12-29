@@ -28,7 +28,7 @@ make
 sudo make install
 ```
 
-  
+
 ## Usage
     Usage: qmlfmt [options] path
 
@@ -53,3 +53,21 @@ Without an explicit path, it processes the standard input. Given a file, it oper
 ### Arguments:
     path            file or directory to process. If not set, qmlfmt will process
                     the standard input.
+
+## Version control integration
+
+Use [pre-commit](https://pre-commit.com/). Once you [have it
+installed](https://pre-commit.com/#install), add this to the
+`.pre-commit-config.yaml` in your repository
+(be sure to update `rev` to point to a real git tag/revision!)::
+
+```yaml
+repos:
+-   repo: https://github.com/machinekoder/qmlfmt
+    rev: '' # Update me!
+    hooks:
+    - id: qmlfmt
+      args: [-i 2, -t 2]
+```
+
+Then run `pre-commit install` and you're ready to go.

@@ -1,0 +1,6 @@
+-   id: qmlfmt
+    name: Run qmlfmt
+    description: qmlfmt is a tool that formats QML files
+    entry: qmlfmt -w -e
+    language: system
+    files: .*\.qml
