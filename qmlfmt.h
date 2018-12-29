@@ -34,7 +34,7 @@ public:
     enum class Option { ListFileName = 0x1, OverwriteFile = 0x2, PrintError = 0x4, PrintDiff = 0x8};
     Q_DECLARE_FLAGS(Options, Option)
 
-    QmlFmt(Options options);
+    explicit QmlFmt(Options options);
     
     int Run();
     int Run(QStringList paths);
