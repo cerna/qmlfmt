@@ -31,7 +31,7 @@ include(ExternalProject)
 if(NOT QT_CREATOR_SRC)	
 	ExternalProject_Add(
 		QtCreator
-		URL "https://download.qt.io/official_releases/qtcreator/4.5/4.5.2/qt-creator-opensource-src-4.5.2.tar.gz"
+		URL "https://download.qt.io/official_releases/qtcreator/4.8/4.8.0/qt-creator-opensource-src-4.8.0.tar.gz"
 		UPDATE_COMMAND "${CMAKE_COMMAND}" -E copy "${CMAKE_SOURCE_DIR}/QtCreator/CMakeLists.txt" .
 		CMAKE_ARGS -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG:PATH=Debug
