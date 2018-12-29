@@ -116,10 +116,10 @@ int main(int argc, char *argv[])
     }
 
     QmlFmt::Options options;
-    for (auto kvp = optionMap.constKeyValueBegin(); kvp != optionMap.constKeyValueEnd(); ++kvp)
+    for (auto kvp = optionMap.begin(); kvp != optionMap.end(); ++kvp)
     {
-        if (parser.isSet((*kvp).second))
-            options |= (*kvp).first;
+        if (parser.isSet(kvp.value()))
+            options |= kvp.key();
     }
 
     QmlFmt qmlFmt(options, indentSize, tabSize);
