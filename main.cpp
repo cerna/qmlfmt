@@ -67,6 +67,10 @@ int main(int argc, char *argv[])
         "If a file\'s formatting is different from qmlfmt\'s, overwrite it "
         "with qmlfmt\'s version.");
 
+    QCommandLineOption indentSizeOption("i", "Indentation size.", "indentSize", "4");
+
+    QCommandLineOption tabSizeOption("t", "Tab size.", "tabSize", "4");
+
     QMap<QmlFmt::Option, QCommandLineOption> optionMap = {
         { QmlFmt::Option::PrintDiff, diffOption },
         { QmlFmt::Option::ListFileName, listOption },
@@ -78,6 +82,8 @@ int main(int argc, char *argv[])
     parser.addHelpOption();
     parser.addVersionOption();
     parser.addOptions(optionMap.values());
+    parser.addOption(indentSizeOption);
+    parser.addOption(tabSizeOption);
     parser.addPositionalArgument("path", "file or directory to process. If not set, qmlfmt will process the standard input.");
 
     // process command line arguments
@@ -97,6 +103,18 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+    bool ok;
+    const int indentSize = parser.value(indentSizeOption).toInt(&ok);
+    if (!ok) {
+        QTextStream(stderr) << "Indent size argument must be a number.\n";
+        return 1;
+    }
+    const int tabSize = parser.value(tabSizeOption).toInt(&ok);
+    if (!ok) {
+        QTextStream(stderr) << "Tab size argument must a number.\n";
+        return 1;
+    }
+
     QmlFmt::Options options;
     for (auto kvp = optionMap.constKeyValueBegin(); kvp != optionMap.constKeyValueEnd(); ++kvp)
     {
@@ -104,6 +122,6 @@ int main(int argc, char *argv[])
             options |= (*kvp).first;
     }
 
-    QmlFmt qmlFmt(options);
+    QmlFmt qmlFmt(options, indentSize, tabSize);
     return qmlFmt.Run(parser.positionalArguments());
 }

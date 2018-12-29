@@ -34,13 +34,15 @@ public:
     enum class Option { ListFileName = 0x1, OverwriteFile = 0x2, PrintError = 0x4, PrintDiff = 0x8};
     Q_DECLARE_FLAGS(Options, Option)
 
-    explicit QmlFmt(Options options);
+    explicit QmlFmt(Options options, int indentSize, int tabSize);
     
     int Run();
     int Run(QStringList paths);
 
 private:
     Options m_options;
+    int m_indentSize;
+    int m_tabSize;
     int InternalRun(QIODevice& input, const QString& path);
 };
 

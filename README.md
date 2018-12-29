@@ -31,6 +31,8 @@ Without an explicit path, it processes the standard input. Given a file, it oper
     -w              Do not print reformatted sources to standard output. If a
                     file's formatting is different from qmlfmt's, overwrite it
                     with qmlfmt's version.
+    -i <indentSize> Indentation size.
+    -t <tabSize>    Tab size.
 
 ### Arguments:
     path            file or directory to process. If not set, qmlfmt will process
