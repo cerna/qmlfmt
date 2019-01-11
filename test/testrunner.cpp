@@ -1,3 +1,5 @@
+#include <memory>
+
 /*
   Copyright (c) 2015-2018, Jesper Hellesø Hansen
   jesperhh@gmail.com
@@ -59,15 +61,13 @@ void TestRunner::prepareTestData()
     QTest::addColumn<QString>("expected");
     QTest::addColumn<bool>("hasError");
 
-    for (auto iter = m_testFiles.cbegin(); iter != m_testFiles.cend(); iter++)
-    {
-        QTest::newRow(QFileInfo(iter->first).baseName().toLatin1()) << iter->first << iter->second << iter->first.contains("error");
+    for (const auto &m_testFile : m_testFiles) {
+        QTest::newRow(QFileInfo(m_testFile.first).baseName().toLatin1()) << m_testFile.first << m_testFile.second << m_testFile.first.contains("error");
     }
 
-    for (auto iter = m_testFiles.cbegin(); iter != m_testFiles.cend(); iter++)
-    {
-        if (!iter->first.contains("error"))
-            QTest::newRow(QFileInfo(iter->second).baseName().toLatin1()) << iter->second << iter->second << false;
+    for (const auto &m_testFile : m_testFiles) {
+        if (!m_testFile.first.contains("error"))
+            QTest::newRow(QFileInfo(m_testFile.second).baseName().toLatin1()) << m_testFile.second << m_testFile.second << false;
     }
 }
 
@@ -107,7 +107,7 @@ QString TestRunner::getTemporaryFileName()
 
 void TestRunner::init()
 {
-    m_process.reset(new QProcess());
+    m_process = std::make_unique<QProcess>();
     m_process->setProgram(m_qmlfmtPath);
 }
 
@@ -212,18 +212,18 @@ void TestRunner::PrintFolderWithDifferences()
     QString stdOut = readOutputStream(false);
     QString stdError = readOutputStream(true);
 
-    for (auto iter = m_testFiles.cbegin(); iter != m_testFiles.cend(); iter++)
+    for (const auto &testFile : m_testFiles)
     {
-        if (iter->first.contains("error"))
+        if (testFile.first.contains("error"))
         {
             // Expected error message is included
-            QVERIFY(stdError.contains(readFile(iter->second)));
+            QVERIFY(stdError.contains(readFile(testFile.second)));
         }
         else
         {
             // Non-formatted (input) is listed, formatted (output) is not
-            QVERIFY(stdOut.contains(iter->first));
-            QVERIFY(!stdOut.contains(iter->second));
+            QVERIFY(stdOut.contains(testFile.first));
+            QVERIFY(!stdOut.contains(testFile.second));
         }
     }
 }
@@ -232,18 +232,18 @@ void TestRunner::PrintMultipleFilesWithDifferences()
 {
     QStringList arguments = { "-l", "-e" };
     QString changedFiles, errors;
-    for (auto iter = m_testFiles.cbegin(); iter != m_testFiles.cend(); iter++)
-    {
-        arguments.append(iter->first);
-        if (iter->first.contains("error"))
+
+    for (const auto &testFile : m_testFiles) {
+        arguments.append(testFile.first);
+        if (testFile.first.contains("error"))
         {
-            errors.append(readFile(iter->second));
+            errors.append(readFile(testFile.second));
         }
         else
         {
-            changedFiles.append(iter->first + "\n");
+            changedFiles.append(testFile.first + "\n");
         }
-        
+
     }
 
     m_process->setArguments(arguments);
