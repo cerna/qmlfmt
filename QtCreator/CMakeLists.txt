@@ -26,7 +26,7 @@
 
 cmake_minimum_required(VERSION 3.1)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -71,7 +71,8 @@ endif()
 add_library(utils STATIC ${utils_source})
 target_compile_definitions(utils PUBLIC "QTCREATOR_UTILS_STATIC_LIB")
 target_include_directories(utils PRIVATE "src/libs/")
-target_link_libraries(utils PRIVATE Qt5::Widgets Qt5::Network Qt5::Concurrent Qt5::Qml)
+target_link_libraries(utils PRIVATE Qt5::Widgets Qt5::Network Qt5::Concurrent Qt5::Qml
+							Qt5::Xml)
 if(WIN32)
 	target_link_libraries(utils PRIVATE user32 iphlpapi ws2_32 shell32)
 endif()
